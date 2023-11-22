@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Real-Time Parking Information</title>
+<style>
+  /* Простой CSS для стилизации */
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+  }
+  .parking {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+  }
+  .parking h2 {
+    margin-top: 0;
+  }
+  
+  .parking-container {
+    display: flex;
+    justify-content: space-between; /* Распределите пространство между контейнерами */
+  }
+  .parking-list {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    width: 48%; /* Каждый контейнер будет иметь ширину менее 50%, чтобы оба помещались в строку */
+  }
+  /* Стилизация заголовков для каждой колонки */
+  .parking-list h2 {
+    margin-top: 0;
+    text-align: center;
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 4px;
+  }
+
+</style>
+</head>
+<body>
+<div class="parking-container">
+    <div class="parking-list" id="lez-parking-container">
+      <h1>Available Parking in LEZ</h1>
+    <!-- Данные парковок будут добавлены сюда динамически -->
+  </div>
+    <!-- Контейнер для парковок вне LEZ -->
+  <div class="parking-list" id="non-lez-parking-container">
+    <h1>Available Parking outside LEZ</h1>
+    <!-- Данные парковок будут добавлены сюда динамически -->
+  </div>
+</div>
+
+<script>
+fetch('https://data.stad.gent/api/explore/v2.1/catalog/datasets/bezetting-parkeergarages-real-time/records?where=categorie%3D%22parking%20in%20LEZ%22&fields=name,totalcapacity,availablecapacity,lastupdate,type,location,categorie&limit=20')
+  .then(response => response.json())
+  .then(data => {
+    const container = document.getElementById('lez-parking-container');
+    // Проверка и вывод данных в консоль для отладки
+    console.log(data.results); // Обратите внимание, что здесь должно быть `data.results`
+    
+    if (data.results && data.results.length > 0) {
+      container.innerHTML = '';
+      data.results.forEach(record => {
+        console.log(record); // Отладочный вывод каждой записи
+        const div = document.createElement('div');
+        div.className = 'parking';
+        div.innerHTML = `
+          <h2>${record.name}</h2>
+          <p>Total capacity: ${record.totalcapacity}</p>
+          <p>Available capacity: ${record.availablecapacity}</p>
+          <p>Last updated: ${new Date(record.lastupdate).toLocaleString()}</p>
+          <p>Type: ${record.type}</p>
+          <p>Coordinates: ${record.location.lat}, ${record.location.lon}</p>
+          <p>Category: ${record.categorie}</p>
+        `;
+        console.log(div.innerHTML); // Проверьте сгенерированный HTML
+        container.appendChild(div);
+      });
+    } else {
+      container.innerHTML = '<p>No parking data available.</p>';
+    }
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+    document.getElementById('data-container').innerHTML = '<p>Error loading data.</p>';
+  });
+
+  fetch('https://data.stad.gent/api/explore/v2.1/catalog/datasets/bezetting-parkeergarages-real-time/records?where=categorie%3D%22parking%20buiten%20LEZ%22&fields=name,totalcapacity,availablecapacity,lastupdate,type,location,categorie&limit=20')
+  .then(response => response.json())
+  .then(data => {
+    const container = document.getElementById('non-lez-parking-container');
+    console.log(data.results); // Обратите внимание на данные
+
+    if (data.results && data.results.length > 0) {
+      container.innerHTML = '';
+      data.results.forEach(record => {
+        const div = document.createElement('div');
+        div.className = 'parking';
+        div.innerHTML = `
+          <h2>${record.name}</h2>
+          <p>Total capacity: ${record.totalcapacity}</p>
+          <p>Available capacity: ${record.availablecapacity}</p>
+          <p>Last updated: ${new Date(record.lastupdate).toLocaleString()}</p>
+          <p>Type: ${record.type}</p>
+          <p>Coordinates: ${record.location.lat}, ${record.location.lon}</p>
+          <p>Category: ${record.categorie}</p>
+        `;
+        container.appendChild(div);
+      });
+    } else {
+      container.innerHTML = '<p>No non-LEZ parking data available.</p>';
+    }
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+    container.innerHTML = '<p>Error loading data.</p>';
+  });
+
+
+
+</script>
+</body>
+</html>
