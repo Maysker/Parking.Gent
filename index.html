@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Real-Time Parking Information</title>
 <style>
-  /* Простой CSS для стилизации */
+  
   body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -25,7 +25,7 @@
   
   .parking-container {
     display: flex;
-    justify-content: space-between; /* Распределите пространство между контейнерами */
+    justify-content: space-between; 
   }
   .parking-list {
     background-color: #fff;
@@ -33,9 +33,9 @@
     padding: 15px;
     margin-bottom: 10px;
     border-radius: 4px;
-    width: 48%; /* Каждый контейнер будет иметь ширину менее 50%, чтобы оба помещались в строку */
+    width: 48%;
   }
-  /* Стилизация заголовков для каждой колонки */
+ 
   .parking-list h2 {
     margin-top: 0;
     text-align: center;
@@ -50,12 +50,12 @@
 <div class="parking-container">
     <div class="parking-list" id="lez-parking-container">
       <h1>Available Parking in LEZ</h1>
-    <!-- Данные парковок будут добавлены сюда динамически -->
+    <!-- Parking data will be added here dynamically -->
   </div>
     <!-- Контейнер для парковок вне LEZ -->
   <div class="parking-list" id="non-lez-parking-container">
     <h1>Available Parking outside LEZ</h1>
-    <!-- Данные парковок будут добавлены сюда динамически -->
+    <!-- Parking data will be added here dynamically -->
   </div>
 </div>
 
@@ -64,13 +64,13 @@ fetch('https://data.stad.gent/api/explore/v2.1/catalog/datasets/bezetting-parkee
   .then(response => response.json())
   .then(data => {
     const container = document.getElementById('lez-parking-container');
-    // Проверка и вывод данных в консоль для отладки
-    console.log(data.results); // Обратите внимание, что здесь должно быть `data.results`
+   // Check and output data to the console for debugging
+    console.log(data.results); 
     
     if (data.results && data.results.length > 0) {
       container.innerHTML = '';
       data.results.forEach(record => {
-        console.log(record); // Отладочный вывод каждой записи
+        console.log(record); // Debug output of each entry
         const div = document.createElement('div');
         div.className = 'parking';
         div.innerHTML = `
@@ -82,7 +82,7 @@ fetch('https://data.stad.gent/api/explore/v2.1/catalog/datasets/bezetting-parkee
           <p>Coordinates: ${record.location.lat}, ${record.location.lon}</p>
           <p>Category: ${record.categorie}</p>
         `;
-        console.log(div.innerHTML); // Проверьте сгенерированный HTML
+        console.log(div.innerHTML); 
         container.appendChild(div);
       });
     } else {
@@ -98,7 +98,7 @@ fetch('https://data.stad.gent/api/explore/v2.1/catalog/datasets/bezetting-parkee
   .then(response => response.json())
   .then(data => {
     const container = document.getElementById('non-lez-parking-container');
-    console.log(data.results); // Обратите внимание на данные
+    console.log(data.results);
 
     if (data.results && data.results.length > 0) {
       container.innerHTML = '';
