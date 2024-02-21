@@ -1,0 +1,408 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #edf7fb; /* Aanpassen aan uw primaire achtergrondkleur */
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    
+}
+
+.header {
+    margin-top: 5px;
+    padding: 5px;
+    text-align: center;
+    background-image: url(gent.webp);
+    background-size: 500px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #edf7fb;
+    height: 250px;
+}
+
+.content {
+    text-align: center;
+    background-color: #edf7fb;
+    
+}
+
+button {
+    background-color: #56bde6; /* Aanpassen aan uw accentkleur */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    background-color: #023047; /* Donkerder voor hovereffect */
+}
+
+#parkingList div {
+    background-color: #219ebc; /* Donkere kleur voor lijstitems */
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 700px; /* или другая желаемая ширина */
+    margin: 0 auto; /* это центрирует элемент */
+    overflow: hidden;
+       
+}
+
+#parkingList .parking-item {
+    margin-bottom: 20px;
+}
+
+/* Stijlen voor de 'Meer informatie' links */
+.parking-item a {
+    color: #065e67; /* Tekstkleur van de link voor contrast met donkere achtergrond */
+    background-color: #edf7fb; /* Halfdoorzichtige witte achtergrond */
+    padding: 5px 10px; /* Ruimte rond de tekst */
+    border-radius: 3px; /* Afgeronde hoeken */
+    text-decoration: none; /* Geen onderstreping */
+    display: inline-block; /* Zodat padding en border-radius toegepast worden */
+    margin: 5px 0; /* Ruimte aan de boven- en onderkant */
+    transition: background-color 0.3s; /* Vloeiende overgang voor achtergrondkleur */
+}
+
+.parking-item a:hover {
+    background-color: rgba(255, 255, 255, 0.5); /* Meer opvallende achtergrond bij hover */
+    color: #ffffff; /* Tekstkleur bij hover */
+}
+
+.footer {
+    background-color: #023047;
+    color: #ffffff; 
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    z-index: 1000;
+       
+}
+
+.footer a, .footer a:visited {
+    color: #ffffff; /* Белый цвет текста для ссылок */
+    text-decoration: none; /* Убираем подчеркивание текста */
+}
+
+.footer a:hover, .footer a:focus {
+    text-decoration: underline; /* Добавляем подчеркивание при наведении или фокусе */
+    
+}
+
+#addressInput, #findParking, #findParkingByAddress, #backButton {
+    width: auto; /* или установите конкретную ширину, если нужно */
+    margin-bottom: 10px; /* Добавляем немного отступа снизу */
+    display: inline-block; /* Элементы будут располагаться в строку */
+    /* Добавьте другие стили, которые нужны по умолчанию для больших экранов */
+}
+.address-input {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+    width: calc(15% - 40px); /* Verklein de breedte om rekening te houden met opvulling */
+    box-sizing: border-box; /* Включает внутренние отступы и границы в общую ширину элемента */
+    max-width: 100%; /* Предотвращает выход за пределы экрана */
+    margin: 0; /* Убирает внешние отступы */
+    
+}
+
+
+.address-input:focus {
+    outline: none;
+    border-color: #00aabb;
+    box-shadow: 0 0 5px #00aabb;
+}
+
+.qr-code-container {
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto;
+    width: fit-content;
+}
+
+#loadingSpinner {
+    border: 5px solid #f3f3f3; 
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    position: absolute; 
+    top: 50%;
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
+/*dynamically datasets - cards*/
+
+.section_our_solution .row {
+    align-items: center;
+    background-color: #edf7fb;
+    padding-top: 10px;
+    overflow-x: hidden;
+    width: 100%; /* Устанавливаем ширину контейнера на 100% */
+    max-width: none; /* Убеждаемся, что не ограничиваем максимальную ширину */
+    margin-left: 0;
+        
+  }
+  
+  .our_solution_category {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .our_solution_category .cards_box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap; /* Обеспечиваем перенос карточек, чтобы они не выходили за пределы экрана */
+    
+  }
+
+  .cards_box .solution_card {
+    flex: 0 1 auto;
+    background: #fff;
+    box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2),
+      0 5px 15px 0 rgba(37, 44, 97, 0.15);
+    border-radius: 15px;
+    margin: 8px;
+    padding: 10px 15px;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    height: 190px;
+    transition: 0.7s;     
+
+  }
+  
+  .cards_box .solution_card:hover {
+    background: #309df0;
+    color: #fff;
+    transform: scale(1.1);
+    z-index: 9;
+  }
+  
+  .cards_box .solution_card:hover::before {
+    background: rgb(85 108 214 / 10%);
+  }
+  
+ 
+  .cards_box .solution_card:before {
+    content: "";
+    position: absolute;
+    background: rgb(85 108 214 / 5%);
+    width: 170px;
+    height: 400px;
+    z-index: -1;
+    transform: rotate(42deg);
+    right: -56px;
+    top: -23px;
+    border-radius: 35px;
+  }
+  
+  .cards_box .solution_card:hover .solu_description button {
+    background: #fff;
+    color: #309df0;
+  }
+  
+  
+  .solution_card .solu_title h3 {
+    color: #212121;
+    font-size: 1rem;
+    margin-top: 13px;
+    margin-bottom: 13px;
+  }
+  
+  .solution_card .solu_description p {
+    font-size: 15px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: #023047;
+  }
+  
+  .cards_box .solution_card:hover h3,
+  .cards_box .solution_card:hover p {
+    color: #fff; /* Белый цвет текста */
+  }
+
+  .solution_card .solu_description button {
+    border: 0;
+    border-radius: 15px;
+    background: linear-gradient(
+      140deg,
+      #42c3ca 0%,
+      #42c3ca 50%,
+      #42c3cac7 75%
+    ) !important;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 5px 16px;
+  }
+  
+  .our_solution_content h1 {
+    text-transform: capitalize;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+  }
+  
+  
+  .hover_color_bubble {
+    position: absolute;
+    background: rgba(54 81 207 / 15%);
+    width: 100rem;
+    height: 100rem;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    top: 16rem;
+    border-radius: 50%;
+    transform: rotate(-36deg);
+    left: -18rem;
+    transition: 0.7s;
+  }
+  
+  .cards_box .solution_card:hover .hover_color_bubble {
+    top: 0rem;
+  }
+  
+  .cards_box .solution_card .so_top_icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #fff;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+ 
+  
+  /*start media query*/
+  @media screen and (min-width: 320px) {
+    .sol_card_top_3 {
+      position: relative;
+      top: 0;
+    }
+  
+    .our_solution_category {
+      width: 100%;
+      margin: 0 auto;
+    }
+  
+    .our_solution_category .cards_box {
+      flex: auto;
+    }
+  }
+  @media only screen and (min-width: 768px) {
+    .our_solution_category .cards_box {
+      flex: 1;
+    }
+  }
+  @media only screen and (min-width: 1024px) {
+    .sol_card_top_3 {
+      position: relative;
+      top: -3rem;
+    }
+    .our_solution_category {
+      width: 50%;
+      margin: 0 auto;
+    }
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .header {
+        background-size: 300px; /* Уменьшите размер изображения для мобильных устройств */
+        height: auto; /* Можно задать автоматическую высоту или уменьшить ее */
+    }
+  }
+
+  @media only screen and (max-width: 767px) {
+    .cards_box .solution_card {
+        max-width: 75%; /* Задайте максимальную ширину карточек */
+        height: auto;
+        margin-bottom: 15px;
+        margin: 0 auto; /* Для центрирования карточек */
+        transition: none; /* Отключаем анимацию увеличения */
+        transform: none; /* Убираем увеличение */
+    }
+
+    .cards_box .solution_card:hover {
+        transform: none; /* Отключаем увеличение при наведении для сенсорных экранов */
+    }
+}
+
+
+@media only screen and (max-width: 767px) {
+    .our_solution_category .cards_box .solution_card {
+        margin-bottom: 20px; /* Устанавливаем желаемый отступ снизу */
+        /* Прочие стили для карточек, если необходимо */
+    }
+
+    /* Если карточки находятся внутри флекс-контейнера, убедитесь, что они не растянуты и имеют правильные отступы */
+    .our_solution_category .cards_box {
+        flex-direction: column; /* Стак карточек вертикально на маленьких экранах */
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .header {
+        min-height: 150px; /* Задаем минимальную высоту для хедера */
+    }
+    
+    /* Адаптируем кнопки и поле ввода */
+    #addressInput, #findParking, #findParkingByAddress, #backButton {
+        width: 95%; /* Элементы займут всю ширину на маленьких экранах */
+        margin-bottom: 10px; /* Отступ снизу для разделения элементов */
+        display: block; /* Элементы будут располагаться каждый на своей строке */
+    }
+}
+
+
+/* Стили для карточек, чтобы они не слипались */
+.section_our_solution .cards_box {
+    margin-bottom: 15px; /* Добавляем отступ между карточками */
+}
+
+/* Отключаем увеличение карточек при наведении на мобильных устройствах */
+@media only screen and (max-width: 767px) {
+    .section_our_solution .cards_box .solution_card:hover {
+        transform: none;
+    }
+}
+
+/*dynamically datasets*/
+
+
+.progress-bar {
+    width: 95%;
+    background: #023047;
+    border: 2px solid #fff;
+    padding: 3px;
+  }
+  
+  .progress {
+    height: 20px;
+    background: linear-gradient(to right, #56bde6,#8ecae6);
+    width: 0%; /* Значение будет обновлено с помощью JavaScript */
+  }
+
+ /**/
+
+ 

@@ -1,166 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Real-Time Parking Information</title>
-<style>
-  
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
-  }
-  .parking {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-  }
-  .parking h2 {
-    margin-top: 0;
-  }
-  
-  .parking-container {
-  display: flex;
-  justify-content: space-around; 
-  flex-wrap: wrap; 
-}
+    <meta charset="UTF-8">
+    <title>Parking.Gent</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="icon" type="image/png" href="Favicon.png">
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
-.parking-list {
-  margin: 0 10px;
-  flex: 1; 
-  max-width: 32%;
-}
-
-.parking-list h2 {
-  text-align: center;
-  background-color: #eee;
-  padding: 10px;
-  border-radius: 4px;
-  margin-bottom: 10px; 
-}
-
-</style>
 </head>
 <body>
-  <div class="parking-container">
-    <div class="parking-list" id="lez-parking-container">
-      <h2>Overzicht parkings binnen LEZ</h2>
-      <div id="lez-parking-data"></div>
+    <div class="header">
+            
     </div>
-  
-    <div class="parking-list" id="non-lez-parking-container">
-      <h2>Overzicht parkings buiten LEZ</h2>
-      <div id="non-lez-parking-data"></div>
+    <div class="content">
+        <button id="findParking">Zoek in mijn buurt</button>
+        <input type="text" id="addressInput" placeholder="Voer een adres in" class="address-input">
+        <button id="findParkingByAddress">Zoek op adres</button>
+        <button id="backButton" style="display: none;">Terug</button>
+        <div id="loadingSpinner" style="display: none;"></div>
+        <div id="parkingList"></div>
     </div>
-      
-    <div class="parking-list" id="pr-parking-container">
-      <h2>Overzicht P+R's</h2>
-      <div id="pr-parking-data"></div>
-    </div>
-  </div>
-
-<script>
-fetch('https://data.stad.gent/api/explore/v2.1/catalog/datasets/bezetting-parkeergarages-real-time/records?where=categorie%3D%22parking%20in%20LEZ%22&fields=name,totalcapacity,availablecapacity,lastupdate,type,location,categorie&limit=20')
-  .then(response => response.json())
-  .then(data => {
-    const container = document.getElementById('lez-parking-data');
-   // Check and output data to the console for debugging
-    console.log(data.results); 
+    <div class="section_our_solution">
+        <div class="row">
+          <div class="our_solution_category">
+            <!-- Card 1 -->
+            <div class="cards_box">
+              <div class="solution_card">
+                <div class="hover_color_bubble"></div>
+                <div class="solu_title">
+                  <h3>Bezetting binnen LEZ</h3>
+                </div>
+                <div class="progress-bar" id="progress-bar-lez">
+                    <div class="progress" style="width: 0%;"></div>
+                </div>
+                <div class="solu_description">
+                    <p class="total_capacity">Total capacity: </p>
+                    <p class="available_capacity">Available capacity: </p>
+                    <p class="last_updated">Last updated: </p>
+                </div>
+              </div>
+            </div>
+            <!-- Card 2 -->
+            <div class="cards_box">
+              <div class="solution_card">
+                <div class="hover_color_bubble"></div>
+                <div class="solu_title">
+                  <h3>Bezetting buiten LEZ</h3>
+                </div>
+                <div class="progress-bar" id="progress-bar-nolez">
+                    <div class="progress" style="width: 0%;"></div>
+                </div>
+                <div class="solu_description">
+                    <p class="total_capacity2">Total capacity: </p>
+                    <p class="available_capacity2">Available capacity: </p>
+                    <p class="last_updated2">Last updated: </p>
+                </div>
+              </div>
+            </div>
+            <!-- Card 3 -->
+            <div class="cards_box">
+              <div class="solution_card">
+                <div class="hover_color_bubble"></div>
+                <div class="solu_title">
+                  <h3>Bezetting P+R's</h3>
+                </div>
+                <div class="progress-bar" id="progress-bar-pr">
+                    <div class="progress" style="width: 0%;"></div>
+                </div>
+                <div class="solu_description">
+                    <p class="total_capacity3">Total capacity: </p>
+                    <p class="available_capacity3">Available capacity: </p>
+                    <p class="last_updated3">Last updated: </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     
-    if (data.results && data.results.length > 0) {
-      container.innerHTML = '';
-      data.results.forEach(record => {
-        console.log(record); // Debug output of each entry
-        const div = document.createElement('div');
-        div.className = 'parking';
-        div.innerHTML = `
-          <h2>${record.name}</h2>
-          <p>Total capacity: ${record.totalcapacity}</p>
-          <p>Available capacity: ${record.availablecapacity}</p>
-          <p>Last updated: ${new Date(record.lastupdate).toLocaleString()}</p>
-          <p>Type: ${record.type}</p>
-          <p>Coordinates: ${record.location.lat}, ${record.location.lon}</p>
-          <p>Category: ${record.categorie}</p>
-        `;
-        console.log(div.innerHTML); 
-        container.appendChild(div);
-      });
-    } else {
-      container.innerHTML = '<p>No parking data available.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('There has been a problem with your fetch operation:', error);
-    document.getElementById('lez-parking-data').innerHTML = '<p>Error loading data.</p>';
-  });
-
-  fetch('https://data.stad.gent/api/explore/v2.1/catalog/datasets/bezetting-parkeergarages-real-time/records?where=categorie%3D%22parking%20buiten%20LEZ%22&fields=name,totalcapacity,availablecapacity,lastupdate,type,location,categorie&limit=20')
-  .then(response => response.json())
-  .then(data => {
-    const container = document.getElementById('non-lez-parking-data');
-    console.log(data.results);
-
-    if (data.results && data.results.length > 0) {
-      container.innerHTML = '';
-      data.results.forEach(record => {
-        const div = document.createElement('div');
-        div.className = 'parking';
-        div.innerHTML = `
-          <h2>${record.name}</h2>
-          <p>Total capacity: ${record.totalcapacity}</p>
-          <p>Available capacity: ${record.availablecapacity}</p>
-          <p>Last updated: ${new Date(record.lastupdate).toLocaleString()}</p>
-          <p>Type: ${record.type}</p>
-          <p>Coordinates: ${record.location.lat}, ${record.location.lon}</p>
-          <p>Category: ${record.categorie}</p>
-        `;
-        container.appendChild(div);
-      });
-    } else {
-      container.innerHTML = '<p>No non-LEZ parking data available.</p>';
-    }
-  })
-  .catch(error => {
-  console.error('There has been a problem with your fetch operation for non-LEZ parking:', error);
-  document.getElementById('non-lez-parking-data').innerHTML = '<p>Error loading non-LEZ parking data.</p>';
-});
-
-fetch('https://data.stad.gent/api/explore/v2.1/catalog/datasets/real-time-bezetting-pr-gent/records?limit=20')
-  .then(response => response.json())
-  .then(data => {
-    const container = document.getElementById('pr-parking-data');
-    console.log(data.results);
-
-    if (data.results && data.results.length > 0) {
-      container.innerHTML = '';
-      data.results.forEach(record => {
-        const div = document.createElement('div');
-        div.className = 'parking';
-        div.innerHTML = `
-          <h2>${record.name}</h2>
-          <p>Total spaces: ${record.numberofspaces}</p>
-          <p>Available spaces: ${record.availablespaces}</p>
-          <p>Occupation: ${record.occupation !== null ? record.occupation : "Information not available"}</p>
-          <p>Last updated: ${new Date(record.lastupdate).toLocaleString()}</p>
-          <p>Type: ${record.type}</p>
-          <p>Coordinates: ${record.latitude}, ${record.longitude}</p>
-          <p>Category: ${record['gentse_feesten'] === 'False' ? 'Regular' : 'During Gentse Feesten'}</p>
-        `;
-        container.appendChild(div);
-      });
-    } else {
-      container.innerHTML = '<p>No P+R parking data available.</p>';
-    }
-  })
-  .catch(error => {
-    console.error('There has been a problem with your fetch operation for P+R parking:', error);
-    document.getElementById('pr-parking-data').innerHTML = '<p>Error loading P+R parking data.</p>';
-  });
-
-</script>
+    <script src="script.js"></script>
+    <div class="footer">
+        Copyright &copy; <span id="year"></span> by 
+    <a href="https://github.com/Maysker" target="_blank" rel="noopener noreferrer">Adam Gazdiev</a>
+    </div> 
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>   
 </body>
 </html>
